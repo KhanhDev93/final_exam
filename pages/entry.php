@@ -38,7 +38,7 @@
 			</tr>
 			<tr class="buttons">
 				<td colspan="2">
-					<button formaction="confirm.html" formmethod="post" name="action" value="entry">確認画面へ</button>
+					<button formaction="confirm.php" formmethod="post" name="action" value="entry">確認画面へ</button>
 				</td>
 			</tr>
 		</table>
@@ -47,5 +47,6 @@
 <footer>
 	<div id="copyright">&copy; 2021 The Applied Course of Web System Development.</div>
 </footer>
+
 </body>
 </html>
