@@ -6,6 +6,47 @@
 	<link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 <body>
+	<?php 
+		// connect to DB
+		require_once 'connectToDB.php'; 
+
+		// get product info
+		if(isset($_POST['category'])) $category = $_POST['category'];
+		if(isset($_POST['name'])) $name = $_POST['name'];
+		if(isset($_POST['price'])) $price = $_POST['price'];
+		if(isset($_POST['detail'])) $detail = $_POST['detail'];
+		
+		// create sql query 
+		if(isset($_POST["action"])){
+			// create new product 
+			if($_POST["action"] == "entry") {
+				$id = $last_id;
+				$sql = "INSERT INTO product (id, name, price, category, detail) 
+				VALUES('$id', '$name', '$price', '$category', '$detail')";
+			}
+			// update existing product 
+			else if($_POST["action"] == "update"){
+				$id = $_POST["id"];
+				$sql = "UPDATE product SET name = '$name', price = '$price', category = '$category', detail = '$detail' WHERE id = '$id'";
+			}
+			else if($_POST["action"] == "delete"){
+				$id = $_POST["id"];
+				$product = "SELECT * FROM product WHERE id = '$id'";
+				$result = mysqli_query($conn,$product);
+				if(mysqli_num_rows($result) > 0){
+					$row = mysqli_fetch_assoc($result);
+					$category = $row['category'];
+					$name = $row['name'];
+					$price = $row['price'];
+					$detail = $row['detail'];
+				}
+				$sql = "DELETE FROM product WHERE id = '$id'";
+			}
+			else;
+		}
+		
+
+	?>
 <header>
 	<h1>商品データベース</h1>
 </header>
@@ -15,28 +56,29 @@
 	<table class="form">
 		<tr>
 			<th>商品ID</th>
-			<td>4</td>
+			<td><?php echo $id ?></td>
 		</tr>
 		<tr>
 			<th>カテゴリ</th>
-			<td>食卓用</td>
+			<td><?php echo $category ?></td>
 		</tr>
 		<tr>
 			<th>商品名</th>
-			<td>ランチョンマット</td>
+			<td><?php echo $name ?></td>
 		</tr>
 		<tr>
 			<th>価格</th>
-			<td>900</td>
+			<td><?php echo $price ?></td>
 		</tr>
 		<tr>
 			<th>商品説明</th>
-			<td>お椀やお箸によく似合う、和風のランチョンマットです。</td>
+			<td><?php echo $detail ?></td>
 		</tr>
 		<tr class="buttons">
 			<td colspan="2">
 				<form name="inputs">
 					<button formaction="complete.php" formmethod="post" name="action" value="execute">実行する</button>
+					<input type="hidden" name="sql" value="<?php echo $sql ?>">
 				</form>
 			</td>
 		</tr>
