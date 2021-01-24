@@ -10,9 +10,17 @@
 	<h1>商品データベース</h1>
 </header>
 <main id="complete">
+	<?php 
+		// connect to database
+		require_once "connectToDB.php";
+		// get sql query
+		$sql = $_POST["sql"];
+		// execute
+		mysqli_query($conn, $sql);
+	?>
 	<h2>商品の完了</h2>
 	<p>処理を完了しました。</p>
-	<p><a href="top.html">トップページに戻る</a></p>
+	<p><a href="top.php">トップページに戻る</a></p>
 </main>
 <footer>
 	<div id="copyright">&copy; 2021 The Applied Course of Web System Development.</div>
