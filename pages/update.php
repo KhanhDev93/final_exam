@@ -6,6 +6,17 @@
 	<link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 <body>
+<?php 
+	require_once "connectToDB.php";
+	$id = $_POST["id"];
+	$sql = "SELECT * FROM product where id = '$id'";
+	$result = mysqli_query($conn, $sql);
+	if(mysqli_num_rows($result) > 0){
+		$row = mysqli_fetch_assoc($result);
+	}
+	$list_ctg = ["財布・小物入れ", "食卓用" , "その他"];
+
+?>
 <header>
 	<h1>商品データベース</h1>
 </header>
@@ -17,31 +28,39 @@
 			<tr>
 				<th>商品ID</th>
 				<td>
-					4
-					<input type="hidden" name="id" value="4">
+					<?php echo $row["id"] ?>
+					<input type="hidden" name="id" value="<?php echo $row["id"] ?>">
 				</td>
 			</tr>
 			<tr>
 				<th>カテゴリ</th>
 				<td>
 					<select name="category">
-						<option value="財布・小物入れ" >財布・小物入れ</option>
-						<option value="食卓用" selected>食卓用</option>
-						<option value="その他" >その他</option>
+					<?php 
+						foreach($list_ctg as $ctg){
+							if($row["category"] == $ctg){
+								echo "<option value='" .  $ctg . "' selected>" .
+								 $ctg .  "</option>";
+							} else { 
+								echo "<option value='" .  $ctg . "'>" .
+								 $ctg .  "</option>";
+							}
+						}	
+					?>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<th>商品名</th>
-				<td><input type="text" name="name" value="ランチョンマット"></td>
+				<td><input type="text" name="name" value="<?php echo $row["name"] ?>"></td>
 			</tr>
 			<tr>
 				<th>価格</th>
-				<td><input type="number" name="price" value="900">円</td>
+				<td><input type="number" name="price" value="<?php echo $row["price"] ?>">円</td>
 			</tr>
 			<tr>
 				<th>商品説明</th>
-				<td><textarea name="detail" id="" cols="30" rows="3">お椀やお箸によく似合う、和風のランチョンマットです。</textarea></td>
+				<td><textarea name="detail" id="" cols="30" rows="3"><?php echo $row["detail"] ?></textarea></td>
 			</tr>
 			<tr class="buttons">
 				<td colspan="2">
