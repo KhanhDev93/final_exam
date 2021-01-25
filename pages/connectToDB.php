@@ -2,8 +2,8 @@
 <?php 
 		
   $servername = "localhost";
-  $username = "username";
-  $password = "";
+  $username = "productdb_admin";
+  $password = "admin123";
   $dbname = "productdb";
   
   $conn = mysqli_connect($servername, $username, $password, $dbname);
